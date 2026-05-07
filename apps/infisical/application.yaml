@@ -49,6 +49,13 @@ spec:
             existingConnectionStringSecret:
               name: infisical-postgres-secret
               key: connection-string
+          primary:
+            nodeSelector:
+              kubernetes.io/hostname: batman2
+            persistence:
+              enabled: true
+              size: 10Gi
+              storageClass: local-path
 
         redis:
           enabled: true
@@ -59,6 +66,13 @@ spec:
             tag: "latest"
           auth:
             enabled: false
+          master:
+            nodeSelector:
+              kubernetes.io/hostname: batman2
+            persistence:
+              enabled: true
+              size: 2Gi
+              storageClass: local-path
 
   destination:
     server: https://kubernetes.default.svc
