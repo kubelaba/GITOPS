@@ -14,6 +14,8 @@ data:
       service: https://argocd-server.argocd:443
       originRequest:
         noTLSVerify: true
+    - hostname: infisical.kubelaba.com
+      service: http://infisical-infisical-standalone-infisical.infisical:80
     - service: http_status:404
 ---
 apiVersion: apps/v1
