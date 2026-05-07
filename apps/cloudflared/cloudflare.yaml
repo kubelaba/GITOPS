@@ -15,7 +15,7 @@ data:
       originRequest:
         noTLSVerify: true
     - hostname: infisical.kubelaba.com
-      service: http://infisical-infisical-standalone-infisical.infisical:80
+      service: http://infisical-infisical-standalone-infisical.infisical:8080
     - service: http_status:404
 ---
 apiVersion: apps/v1
