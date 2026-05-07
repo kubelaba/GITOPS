@@ -20,6 +20,13 @@ spec:
             # renovate: datasource=docker depName=infisical/infisical
             tag: "v0.43.70"
             pullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           ingress:
             enabled: false
 
@@ -28,7 +35,6 @@ spec:
           image:
             registry: mirror.gcr.io
             repository: bitnami/postgresql
-            # renovate: datasource=docker depName=mirror.gcr.io/bitnami/postgresql
             tag: "latest"
           auth:
             username: infisical
@@ -45,7 +51,6 @@ spec:
           image:
             registry: mirror.gcr.io
             repository: bitnami/redis
-            # renovate: datasource=docker depName=mirror.gcr.io/bitnami/redis
             tag: "latest"
           auth:
             enabled: false
