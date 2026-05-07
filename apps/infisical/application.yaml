@@ -17,24 +17,27 @@ spec:
           kubeSecretRef: infisical-secrets
           image:
             repository: infisical/infisical
-            # renovate: datasource=docker depName=infisical/infisical
             tag: "v0.43.70"
             pullPolicy: IfNotPresent
           resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
             requests:
               memory: "512Mi"
-              cpu: "250m"
-            limits:
-              memory: "1Gi"
-              cpu: "500m"
-          ingress:
-            enabled: false
+              cpu: "350m"
+
+        ingress:
+          enabled: false
+
+        ingress-nginx:
+          enabled: false
 
         postgresql:
           enabled: true
           image:
             registry: mirror.gcr.io
-            repository: bitnami/postgresql
+            repository: bitnamilegacy/postgresql
             tag: "latest"
           auth:
             username: infisical
@@ -50,7 +53,7 @@ spec:
           architecture: standalone
           image:
             registry: mirror.gcr.io
-            repository: bitnami/redis
+            repository: bitnamilegacy/redis
             tag: "latest"
           auth:
             enabled: false
