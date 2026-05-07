@@ -84,3 +84,8 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: infisical-ingress-nginx-controller
+    namespace: infisical
