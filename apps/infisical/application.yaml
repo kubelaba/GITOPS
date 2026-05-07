@@ -29,6 +29,8 @@ spec:
 
         ingress:
           enabled: false
+          nginx:
+            enabled: false
 
         ingress-nginx:
           enabled: false
