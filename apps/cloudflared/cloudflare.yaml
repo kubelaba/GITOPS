@@ -16,6 +16,10 @@ data:
         noTLSVerify: true
     - hostname: infisical.kubelaba.com
       service: http://infisical-infisical-standalone-infisical.infisical:8080
+    - hostname: k8s-api.kubelaba.com
+      service: https://kubernetes.default.svc:443
+      originRequest:
+        noTLSVerify: true
     - service: http_status:404
 ---
 apiVersion: apps/v1
