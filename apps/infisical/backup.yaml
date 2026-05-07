@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-backup-script
+  namespace: infisical
+data:
+  backup.sh: |
+    #!/bin/bash
+    TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    BACKUP_DIR=/backups
+    mkdir -p $BACKUP_DIR
+    pg_dump -U infisical -h postgresql infisicalDB | gzip > $BACKUP_DIR/infisical_$TIMESTAMP.sql.gz
+    # Keep only last 7 days
+    find $BACKUP_DIR -name "*.sql.gz" -mtime +7 -delete
+    echo "Backup completed: infisical_$TIMESTAMP.sql.gz"
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: infisical
+spec:
+  schedule: "0 2 * * *"  # Every day at 2am
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: batman2
+          containers:
+          - name: postgres-backup
+            image: mirror.gcr.io/bitnamilegacy/postgresql:latest
+            env:
+            - name: PGPASSWORD
+              value: "root"
+            command: ["/bin/bash", "/scripts/backup.sh"]
+            volumeMounts:
+            - name: backup-script
+              mountPath: /scripts
+            - name: backup-storage
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: backup-script
+            configMap:
+              name: postgres-backup-script
+              defaultMode: 0755
+          - name: backup-storage
+            hostPath:
+              path: /var/backups/infisical
+              type: DirectoryOrCreate
